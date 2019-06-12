@@ -29,5 +29,13 @@
 
 .book_button {
     height: 40px;
-    width: 100px;
+    min-width: 100px;
+}
+
+.location-icon {
+    width: 10px;
+}
+
+.card-body {
+    padding: 20px 15px;
 }

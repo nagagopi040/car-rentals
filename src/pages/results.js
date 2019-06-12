@@ -32,7 +32,7 @@ export class Results extends Component {
                 </Row>
                 <Row>
                     <Col>
-                        <CarsContainer />
+                        <CarsContainer location={location} selectedDate={selectedDate} />
                     </Col>
                 </Row>
             </>

@@ -52,12 +52,11 @@ export class InputSearch extends Component {
                         selected={this.state.startDate}
                         onChange={this.handleChange}
                         minDate={new Date()}
-                        // maxDate={addMonths(new Date(), 2)}
                         showDisabledMonthNavigation
                         placeholderText="select date"
                     />
                 </FormGroup>
-                <Button color="success" className="mx-2" disabled={!(location && startDate)}>{buttonText ? buttonText : "Book Now"}</Button>
+                <Button color="success" className="mx-2" disabled={!(location && startDate)}>{buttonText ? buttonText : "Search"}</Button>
             </Form>
         )
     }
