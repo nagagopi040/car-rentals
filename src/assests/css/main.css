@@ -1,0 +1,33 @@
+.dropdown-toggle {
+    border: 1px solid #6c757d;
+    width: 150px;
+    padding: 3px 10px;
+}
+
+.btn-success {
+    padding: 3px 10px;
+}
+.react-datepicker__input-container input[type="text"] {
+    text-align: center;
+    width: 150px;
+    border: 1px solid #6c757d;
+    line-height: 28px;
+    border-radius: 5px;
+}
+
+.car-image {
+    max-width: 150px;
+}
+
+.car-card p {
+    margin: 0;
+}
+
+.car_type {
+    width: 15px;
+}
+
+.book_button {
+    height: 40px;
+    width: 100px;
+}

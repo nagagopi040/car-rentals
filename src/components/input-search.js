@@ -15,10 +15,12 @@ export class InputSearch extends Component {
     }
 
     componentDidMount() {
-        let { selectedDate } = this.props;
-        this.setState({
-            startDate: selectedDate
-        });
+        let { selectedDate, location } = this.props;
+        if(location && selectedDate)
+            this.setState({
+                startDate: selectedDate,
+                location
+            });
     }
 
     handleChange = (date) => {
@@ -28,14 +30,20 @@ export class InputSearch extends Component {
     }
 
     onSelect = (location) => {
-        console.log(location);
         this.setState({location})
+    }
+
+    onSubmit = () => {
+        let { location, startDate } = this.state;
+        let selectedDate = startDate;
+        this.props.onSubmit(selectedDate, location);
     }
 
     render() {
         const { startDate, location } = this.state;
+        const { buttonText } = this.props;
         return (
-            <Form inline className="my-4">
+            <Form inline className="my-4" onSubmit={this.onSubmit}>
                 <FormGroup className="mx-2">
                     <InputDropDown location={this.props.location} onSelect={this.onSelect} />
                 </FormGroup>
@@ -49,7 +57,7 @@ export class InputSearch extends Component {
                         placeholderText="select date"
                     />
                 </FormGroup>
-                <Button color="success" className="mx-2" disabled={!(location && startDate)}>Book Now</Button>
+                <Button color="success" className="mx-2" disabled={!(location && startDate)}>{buttonText ? buttonText : "Book Now"}</Button>
             </Form>
         )
     }

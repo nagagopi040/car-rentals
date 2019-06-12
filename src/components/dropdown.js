@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
+import { Common } from "../utils/common";
 
 export class InputDropDown extends Component {
     constructor(props) {
@@ -7,8 +8,16 @@ export class InputDropDown extends Component {
     
         this.state = {
             dropdownOpen: false,
-            location: "Select Location"
+            location: "Select Location",
+            cities: []
         };
+    }
+
+    componentDidMount(){
+        let { location } = this.props;
+        let cities = Common.allCities;
+        this.setState({cities});
+        if(location) this.setState({location})
     }
     
     toggle = () => {
@@ -25,17 +34,19 @@ export class InputDropDown extends Component {
     }
     
     render() {
-        const { location, dropdownOpen } = this.state;
+        const { location, dropdownOpen, cities } = this.state;
         return (
             <Dropdown isOpen={dropdownOpen} toggle={this.toggle}>
                 <DropdownToggle caret color="transparent">{location}</DropdownToggle>
                 <DropdownMenu>
                     <DropdownItem disabled>Select Location</DropdownItem>
-                    <DropdownItem onClick={() => this.onSelect("Benguluru")}>Benguluru</DropdownItem>
-                    <DropdownItem>Chennai</DropdownItem>
-                    <DropdownItem>Delhi</DropdownItem>
-                    <DropdownItem>Hyderabed</DropdownItem>
-                    <DropdownItem>Mumbai</DropdownItem>
+                    {
+                        cities.map( (city, index) => {
+                            return (
+                                <DropdownItem key={index} selected={city===location} onClick={() => this.onSelect(city)}>{city}</DropdownItem>
+                            )
+                        })
+                    }
                 </DropdownMenu>
             </Dropdown>
         );
