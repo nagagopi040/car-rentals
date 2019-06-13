@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col } from "reactstrap";
 import ReactPaginate from "react-paginate";
 
-import { CarCard } from "./../components";
+import { CarCard, Filter, Sort, SearchBox  } from "./../components";
 import { Common } from '../utils';
 
 export class CarsContainer extends Component {
@@ -13,18 +13,19 @@ export class CarsContainer extends Component {
             cars: [],
             limit: 6,
             offset: 0,
-            sort: ""
+            sort: "",
+            searchCar: ""
         }
     }
 
     componentDidMount(){
-        let  { offset, limit } = this.state;
+        let  { offset, limit, sort, searchCar } = this.state;
         let { location, selectedDate } = this.props;
         Common.getCars()
             .then(res => {
                 var pageLength = Common.getNoOfPages(res, location);
                 let allCars = Common.getCarsFromLocation(res, location);
-                var data = Common.getCarsForLimit(res, location, offset, limit)
+                var data = Common.getCarsForLimit(allCars, sort, offset, limit, searchCar);
                 this.setState({
                     allCars: allCars,
                     cars: data,
@@ -39,7 +40,7 @@ export class CarsContainer extends Component {
     }
 
     handlePageClick = (value) => {
-        let { allCars, location } = this.state;
+        let { allCars } = this.state;
         let newOffset = value.selected * 6;
         let newLimit = 6 * (value.selected+1);
         const newCars = allCars.slice(newOffset, newLimit);
@@ -50,10 +51,37 @@ export class CarsContainer extends Component {
         })
     }
 
+    onSort = (sort) => {
+        let { allCars, searchCar } = this.state;
+        let cars = Common.getCarsForLimit(allCars, sort, 0, 6, searchCar);
+        this.setState({
+            cars,
+            sort,
+            offset: 0,
+            limit: 6
+        })
+    }
+
+    onSearchChange = (searchCar) => {
+        let { allCars, sort, offset, limit } = this.state;
+        let cars = Common.getCarsForLimit(allCars, sort, offset, limit, searchCar);
+        this.setState({
+            cars,
+            searchCar
+        })
+    }
+
     render() {
         const { cars } = this.state;
         return (
             <>
+            <Row>
+                <Col className="my-4 d-flex flex-row justify-content-around align-items-center">
+                    <Filter  />
+                    <SearchBox onSearchChange={this.onSearchChange} />
+                    <Sort onSort={this.onSort} />
+                </Col>
+            </Row>
             <Row>
                 {
                     cars && cars.map( (car, index) => {
@@ -74,7 +102,7 @@ export class CarsContainer extends Component {
                     marginPagesDisplayed={2}
                     pageRangeDisplayed={5}
                     onPageChange={this.handlePageClick}
-                    containerClassName={"d-flex flex-row justify-content-around pagination"}
+                    containerClassName={"d-flex flex-row justify-content-center align-items-center pagination"}
                     subContainerClassName={'pages pagination'}
                     activeClassName={'active'}
                 />

@@ -39,3 +39,26 @@
 .card-body {
     padding: 20px 15px;
 }
+
+.pagination li.active {
+    background: #007bff;
+    width: 20px;
+}
+
+.pagination li.active a {
+    color: white;
+}
+
+.pagination li {
+    margin: 0 20px;
+    text-align: center;
+}
+
+.pagination li a {
+    text-decoration: none;
+}
+
+
+.up-arrow img {
+    transform: rotate(180deg);
+}

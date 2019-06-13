@@ -10,11 +10,23 @@ export const Common = {
     },
     getNoOfPages: (cars, location) => {
         var carJson = Common.getCarsFromLocation(cars, location)
-        return Math.ceil(carJson.length/6)
+        return Math.ceil(carJson.length/6);
     },
-    getCarsForLimit: (cars, location, offset, limit) => {
-        var carsJson = Common.getCarsFromLocation(cars, location);
-        return carsJson.slice(offset, limit);
+    getCarsForLimit: (cars, sort, offset, limit, searchCar) => {
+        let carsJson = Common.getSortedCars(cars, sort);
+        let searchedCars = Common.getSearchedCar(carsJson, searchCar);
+        return searchedCars.slice(offset, limit);
+    },
+    getSortedCars: (cars, sort) => {
+        return cars.sort( (a,b) => {
+            if(sort==="ASC")return a.price - b.price
+            else if(sort==="DESC") return b.price - a.price;
+        })
+    },
+    getSearchedCar: (cars, searchCar) => {
+        if(searchCar){
+            return cars.filter( ({ name, car_Type }) => (name.search(new RegExp(searchCar, "i")) !== -1) || (car_Type.search(new RegExp(searchCar, "i")) !== -1))
+        }
+        return cars;
     }
-
 }

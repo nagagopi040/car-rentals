@@ -12,7 +12,7 @@ export class CarCard extends Component {
                         <CardImg src={car.photo} className="car-image" />
                     </CardBody>
                     <CardBody>
-                        <CardText><img className="location-icon" src="https://www.mylescars.com/images/LocateMeSearchIcon.jpg" /><span className="px-2">{car.location}</span></CardText>
+                        <CardText><img className="location-icon" src="https://www.mylescars.com/images/car-Location-Icon.png" /><span className="px-2">{car.location}</span></CardText>
                         <CardText><img src="https://www.mylescars.com/images/am-icon.png" /><span className="px-2">{car.transmission}</span></CardText>
                         <CardText><img src="https://www.mylescars.com/images/seater-icon.png" /><span className="px-2">{car.seats} Seater</span></CardText>
                         <CardText><img src="https://www.mylescars.com/images/fuel-icon.png" /><span className="px-2">{car.fuel_Type}</span></CardText>
