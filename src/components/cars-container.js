@@ -24,16 +24,7 @@ export class CarsContainer extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        this.setState({
-            location: nextProps.location,
-            selectedDate: nextProps.selectedDate,
-            offset: 0,
-            limit: 6,
-            sort: "",
-            filters: {},
-            searchCar: ""
-        })
-        this.getInitialCars(nextProps.location, nextProps.selectedDate, 0, 6, "", "", {})
+        nextProps && this.getInitialCars(nextProps.location, nextProps.selectedDate, 0, 6, "", "", {})
     }
 
     getInitialCars = (location, selectedDate, offset, limit, sort, searchCar, filters) => {
