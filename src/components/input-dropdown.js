@@ -43,7 +43,7 @@ export class InputDropDown extends Component {
                     {
                         cities.map( (city, index) => {
                             return (
-                                <DropdownItem key={index} selected={city===location} onClick={() => this.onSelect(city)}>{city}</DropdownItem>
+                                <DropdownItem key={index} onClick={() => this.onSelect(city)}>{city}</DropdownItem>
                             )
                         })
                     }

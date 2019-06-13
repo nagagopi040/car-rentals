@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Form, FormGroup, Button } from "reactstrap";
 import DatePicker from "react-datepicker";
 
-import { InputDropDown } from "./dropdown";
+import { InputDropDown } from "./input-dropdown";
 
 export class InputSearch extends Component {
     constructor(props){

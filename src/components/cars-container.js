@@ -14,24 +14,28 @@ export class CarsContainer extends Component {
             limit: 6,
             offset: 0,
             sort: "",
-            searchCar: ""
+            filters: {},
+            searchCar: "",
+            isLoading: false
         }
     }
 
     componentDidMount(){
-        let  { offset, limit, sort, searchCar } = this.state;
+        let  { offset, limit, sort, searchCar, filters } = this.state;
         let { location, selectedDate } = this.props;
+        this.setState({isLoading: true})
         Common.getCars()
             .then(res => {
                 var pageLength = Common.getNoOfPages(res, location);
                 let allCars = Common.getCarsFromLocation(res, location);
-                var data = Common.getCarsForLimit(allCars, sort, offset, limit, searchCar);
+                var data = Common.getCarsForLimit(allCars, sort, filters, offset, limit, searchCar);
                 this.setState({
                     allCars: allCars,
                     cars: data,
                     pageLength,
                     location,
-                    selectedDate
+                    selectedDate,
+                    isLoading: false
                 })
             })
             .catch(err => {
@@ -52,8 +56,8 @@ export class CarsContainer extends Component {
     }
 
     onSort = (sort) => {
-        let { allCars, searchCar } = this.state;
-        let cars = Common.getCarsForLimit(allCars, sort, 0, 6, searchCar);
+        let { allCars, searchCar, filters } = this.state;
+        let cars = Common.getCarsForLimit(allCars, sort, filters, 0, 6, searchCar);
         this.setState({
             cars,
             sort,
@@ -63,29 +67,49 @@ export class CarsContainer extends Component {
     }
 
     onSearchChange = (searchCar) => {
-        let { allCars, sort, offset, limit } = this.state;
-        let cars = Common.getCarsForLimit(allCars, sort, offset, limit, searchCar);
+        let { allCars, sort, offset, limit, filters } = this.state;
+        let cars = Common.getCarsForLimit(allCars, sort, filters, offset, limit, searchCar);
         this.setState({
             cars,
             searchCar
         })
     }
 
+    onFilter = (filters) => {
+        let { allCars, sort, offset, limit, searchCar } = this.state;
+        let cars = Common.getCarsForLimit(allCars, sort, filters, offset, limit, searchCar);
+        this.setState({
+            filters,
+            cars
+        })
+    }
+
     render() {
-        const { cars } = this.state;
+        const { cars, isLoading } = this.state;
+        if(isLoading){
+            return <div className="text-center" >Cars are loading...</div>
+        }
         return (
             <>
-            <Row>
-                <Col className="my-4 d-flex flex-row justify-content-around align-items-center">
-                    <Filter  />
+            <Row className="my-4 d-flex flex-row justify-content-between align-items-center">
+                <Col className="col-12 col-md-7">
+                    <Filter onFilter={this.onFilter} />
+                </Col>
+                <Col className="col-12 col-md-3">
                     <SearchBox onSearchChange={this.onSearchChange} />
+                </Col>
+                <Col className="col-12 col-md-2">
                     <Sort onSort={this.onSort} />
                 </Col>
             </Row>
+            {
+                cars.length === 0 &&
+                    <h4 className="text-center text-warning">Sorry, Currently we don't have cars as per your requirements</h4> 
+            }
             <Row>
                 {
-                    cars && cars.map( (car, index) => {
-                        return ( 
+                    cars && cars.length > 0 && cars.map( (car, index) => {
+                        return (
                             <Col className="col-12 col-md-4" key={index}>
                                 <CarCard car={car} />
                             </Col>
@@ -93,21 +117,24 @@ export class CarsContainer extends Component {
                     })
                 }
             </Row>
-            <Row>
-                <Col>
-                <ReactPaginate
-                    previousLabel={'prev'}
-                    nextLabel={'next'}
-                    pageCount={this.state.pageLength}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    onPageChange={this.handlePageClick}
-                    containerClassName={"d-flex flex-row justify-content-center align-items-center pagination"}
-                    subContainerClassName={'pages pagination'}
-                    activeClassName={'active'}
-                />
-                </Col>
-            </Row>
+            {
+                cars && cars.length > 0 && !isLoading &&
+                <Row>
+                    <Col>
+                    <ReactPaginate
+                        previousLabel={'prev'}
+                        nextLabel={'next'}
+                        pageCount={this.state.pageLength}
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={5}
+                        onPageChange={this.handlePageClick}
+                        containerClassName={"d-flex flex-row justify-content-center align-items-center pagination"}
+                        subContainerClassName={'pages pagination'}
+                        activeClassName={'active'}
+                    />
+                    </Col>
+                </Row>
+            }
             </>
         );
     }
