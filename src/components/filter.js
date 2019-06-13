@@ -44,18 +44,14 @@ export class Filter extends Component {
     render() {
         const { transmissionTypes, carTypes, fuelTypes, clearFilter } = this.state;
         return (
-            <div className="filter d-flex flex-row justify-content-between">
-                <span className="font-weight-bold pr-4">Filter By: </span>
+            <div className="filter d-flex flex-row justify-content-between align-items-center">
                 <div>
-                    <FilterDropDown data={transmissionTypes} label="Transmission" clearFilter={clearFilter} onSelect={(value) => this.onFilterSelect(value, "transmission")} />
+                    <span className="font-weight-bold pr-2">Filter By: </span>
+                    <Button color="link" className="text-decoration-none pr-2" onClick={this.clearFilter}>Clear</Button>
                 </div>
-                <div>
-                    <FilterDropDown data={carTypes} label="CarType" clearFilter={clearFilter} onSelect={(value) => this.onFilterSelect(value, "car_Type")} />
-                </div>
-                <div>
-                    <FilterDropDown data={fuelTypes} label="FuelType" clearFilter={clearFilter} onSelect={(value) => this.onFilterSelect(value, "fuel_Type")} />
-                </div>
-                <Button color="link" className="text-decoration-none" onClick={this.clearFilter}>Clear</Button>
+                <FilterDropDown data={transmissionTypes} label="Transmission" clearFilter={clearFilter} onSelect={(value) => this.onFilterSelect(value, "transmission")} />
+                <FilterDropDown data={carTypes} label="CarType" clearFilter={clearFilter} onSelect={(value) => this.onFilterSelect(value, "car_Type")} />
+                <FilterDropDown data={fuelTypes} label="FuelType" clearFilter={clearFilter} onSelect={(value) => this.onFilterSelect(value, "fuel_Type")} />
             </div>
         );
     }

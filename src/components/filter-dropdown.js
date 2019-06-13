@@ -34,7 +34,7 @@ export class FilterDropDown extends Component {
         const { dropdownOpen, label } = this.state;
         const { data, clearFilter } = this.props;
         return (
-            <Dropdown isOpen={dropdownOpen} toggle={this.toggle}>
+            <Dropdown isOpen={dropdownOpen} toggle={this.toggle} className="filter-dropdown">
                 <DropdownToggle caret color="transparent">{clearFilter ? this.props.label : label}</DropdownToggle>
                 <DropdownMenu>
                     <DropdownItem disabled>{label}</DropdownItem>

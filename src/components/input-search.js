@@ -33,7 +33,8 @@ export class InputSearch extends Component {
         this.setState({location})
     }
 
-    onSubmit = () => {
+    onSubmit = (event) => {
+        event.preventDefault();
         let { location, startDate } = this.state;
         let selectedDate = startDate;
         this.props.onSubmit(selectedDate, location);

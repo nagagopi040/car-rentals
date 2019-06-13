@@ -11,6 +11,7 @@ export class Results extends Component {
             selectedDate: null
         }
     }
+
     componentDidMount(){
         let { location, selectedDate } = this.props.location.state;
         if(location && selectedDate) {
@@ -21,13 +22,24 @@ export class Results extends Component {
         }
     }
 
+    modifySearch = (selectedDate, location) => {
+        this.setState({
+            location,
+            selectedDate
+        })
+    }
+
     render() {
-        let { location, selectedDate } = this.props.location.state;
+        let { location, selectedDate } = this.state;
+        if(!(location && selectedDate)){
+            return null;
+        }
+        
         return (
             <>
                 <Row>
                     <Col className="col-12 col-md-6 offset-md-3">
-                        <InputSearch location={location} selectedDate={selectedDate} buttonText="Modify Search" />
+                        <InputSearch location={location} selectedDate={selectedDate} buttonText="Modify Search" onSubmit={this.modifySearch} />
                     </Col>
                 </Row>
                 <Row>

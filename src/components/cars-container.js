@@ -10,26 +10,42 @@ export class CarsContainer extends Component {
         super(props);
 
         this.state = {
+            location: "",
+            selectedDate: null,
             cars: [],
             limit: 6,
             offset: 0,
             sort: "",
             filters: {},
             searchCar: "",
-            isLoading: false
+            isLoading: false,
+            day: null
         }
     }
 
-    componentDidMount(){
-        let  { offset, limit, sort, searchCar, filters } = this.state;
-        let { location, selectedDate } = this.props;
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            location: nextProps.location,
+            selectedDate: nextProps.selectedDate,
+            offset: 0,
+            limit: 6,
+            sort: "",
+            filters: {},
+            searchCar: ""
+        })
+        this.getInitialCars(nextProps.location, nextProps.selectedDate, 0, 6, "", "", {})
+    }
+
+    getInitialCars = (location, selectedDate, offset, limit, sort, searchCar, filters) => {
+        let day = Common.getDay(new Date(selectedDate).getDay());
         this.setState({isLoading: true})
         Common.getCars()
             .then(res => {
                 var pageLength = Common.getNoOfPages(res, location);
                 let allCars = Common.getCarsFromLocation(res, location);
-                var data = Common.getCarsForLimit(allCars, sort, filters, offset, limit, searchCar);
+                var data = Common.getCarsForLimit(allCars, day, sort, filters, offset, limit, searchCar);
                 this.setState({
+                    day,
                     allCars: allCars,
                     cars: data,
                     pageLength,
@@ -41,6 +57,12 @@ export class CarsContainer extends Component {
             .catch(err => {
                 console.log(err)
             })
+    }
+
+    componentDidMount(){
+        let  { offset, limit, sort, searchCar, filters } = this.state;
+        let { location, selectedDate } = this.props;
+        this.getInitialCars(location, selectedDate, offset, limit, sort, searchCar, filters);
     }
 
     handlePageClick = (value) => {
@@ -56,8 +78,8 @@ export class CarsContainer extends Component {
     }
 
     onSort = (sort) => {
-        let { allCars, searchCar, filters } = this.state;
-        let cars = Common.getCarsForLimit(allCars, sort, filters, 0, 6, searchCar);
+        let { allCars, day, searchCar, filters } = this.state;
+        let cars = Common.getCarsForLimit(allCars, day, sort, filters, 0, 6, searchCar);
         this.setState({
             cars,
             sort,
@@ -67,8 +89,8 @@ export class CarsContainer extends Component {
     }
 
     onSearchChange = (searchCar) => {
-        let { allCars, sort, offset, limit, filters } = this.state;
-        let cars = Common.getCarsForLimit(allCars, sort, filters, offset, limit, searchCar);
+        let { allCars, day, sort, offset, limit, filters } = this.state;
+        let cars = Common.getCarsForLimit(allCars, day, sort, filters, offset, limit, searchCar);
         this.setState({
             cars,
             searchCar
@@ -76,8 +98,8 @@ export class CarsContainer extends Component {
     }
 
     onFilter = (filters) => {
-        let { allCars, sort, offset, limit, searchCar } = this.state;
-        let cars = Common.getCarsForLimit(allCars, sort, filters, offset, limit, searchCar);
+        let { allCars, day, sort, offset, limit, searchCar } = this.state;
+        let cars = Common.getCarsForLimit(allCars, day, sort, filters, offset, limit, searchCar);
         this.setState({
             filters,
             cars
@@ -85,7 +107,7 @@ export class CarsContainer extends Component {
     }
 
     render() {
-        const { cars, isLoading } = this.state;
+        const { cars, isLoading, day } = this.state;
         if(isLoading){
             return <div className="text-center" >Cars are loading...</div>
         }
@@ -111,7 +133,7 @@ export class CarsContainer extends Component {
                     cars && cars.length > 0 && cars.map( (car, index) => {
                         return (
                             <Col className="col-12 col-md-4" key={index}>
-                                <CarCard car={car} />
+                                <CarCard car={car} day={day} />
                             </Col>
                         )
                     })
@@ -122,8 +144,8 @@ export class CarsContainer extends Component {
                 <Row>
                     <Col>
                     <ReactPaginate
-                        previousLabel={'prev'}
-                        nextLabel={'next'}
+                        previousLabel={'<'}
+                        nextLabel={'>'}
                         pageCount={this.state.pageLength}
                         marginPagesDisplayed={2}
                         pageRangeDisplayed={5}

@@ -1,11 +1,27 @@
 import React, { Component } from "react";
 import { Card, CardBody, CardHeader, CardFooter, CardImg, CardTitle, CardText, Button } from "reactstrap";
+import { Common } from "../utils";
 
 export class CarCard extends Component {
+    constructor(props){
+        super(props);
+
+        this.state = {
+            selected: false
+        }
+    }
+
+    onSelect = () => {
+        this.setState({
+            selected: true
+        })
+    }
+
     render() {
-        const { car } = this.props
+        const { selected } = this.state;
+        const { car, day } = this.props;
         return (
-            <Card className="mb-4 car-card">
+            <Card className={`mb-4 car-card ${selected? "selected-card" : ""}`} >
                 <CardHeader tag="h4" className="border-0">{car.name}</CardHeader>
                 <div className="d-flex flex-row">
                     <CardBody>
@@ -21,8 +37,12 @@ export class CarCard extends Component {
                 </div>
                 <CardFooter className="border-0 d-flex flex-row justify-content-between">
                     <CardTitle>&#8377; {car.price}</CardTitle>
-                    <Button color="info" className="book_button">Select</Button>
+                    <Button color="info" className="book_button" onClick={this.onSelect} disabled={!Common.isDayAvailable(car.availability, day)}>Select</Button>
                 </CardFooter>
+                {
+                    !Common.isDayAvailable(car.availability, day) &&
+                    <div className="not-available">NOT AVAILABLE</div>
+                }
             </Card>
         )
     }

@@ -15,6 +15,24 @@
     border-radius: 5px;
 }
 
+.car-card {
+    position: relative;
+}
+
+.selected-card {
+    background: #e24a02;
+}
+
+.not-available {
+    position: absolute;
+    left: 50px;
+    top: 100px;
+    z-index: 999;
+    background: white;
+    opacity: 0.6;
+    color: red;
+}
+
 .car-image {
     max-width: 150px;
 }
