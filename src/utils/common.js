@@ -24,14 +24,17 @@ export const Common = {
         return Math.ceil(carJson.length/6);
     },
     getCarsForLimit: (cars, day, sort, filters, offset, limit, searchCar) => {
-        let carsJson = Common.getSortedCars(cars, sort, day);
+        let carsAvailable = cars.sort( (a,b) => {
+            return Common.isDayAvailable(b.availability, day) - Common.isDayAvailable(a.availability, day);
+        })
+        let carsJson = Common.getSortedCars(carsAvailable, sort);
         let searchedCars = Common.getSearchedCar(carsJson, searchCar);
         let filteredCars = Common.getFilteredCars(searchedCars, filters);
         return filteredCars.slice(offset, limit);
     },
-    getSortedCars: (cars, sort, day) => {
+    getSortedCars: (cars, sort) => {
         return cars.sort( (a,b) => {
-            if(sort==="ASC")return a.price - b.price && Common.isDayAvailable(day);
+            if(sort==="ASC")return a.price - b.price;
             else if(sort==="DESC") return b.price - a.price;
         })
     },

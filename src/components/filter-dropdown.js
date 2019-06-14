@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
-import { Common } from "../utils/common";
 
 export class FilterDropDown extends Component {
     constructor(props) {
@@ -24,10 +23,11 @@ export class FilterDropDown extends Component {
     }
     
     onSelect = (value) => {
-        this.setState(prevState => ({
+        this.props.onSelect(value);
+        this.setState({
             label: value,
-            dropdownOpen: !prevState.dropdownOpen
-        }), () => this.props.onSelect(value))
+            dropdownOpen: false
+        })
     }
     
     render() {

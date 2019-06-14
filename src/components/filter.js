@@ -45,7 +45,7 @@ export class Filter extends Component {
         const { transmissionTypes, carTypes, fuelTypes, clearFilter } = this.state;
         return (
             <div className="filter d-flex flex-row justify-content-between align-items-center">
-                <div>
+                <div className="filter-label">
                     <span className="font-weight-bold pr-2">Filter By: </span>
                     <Button color="link" className="text-decoration-none pr-2" onClick={this.clearFilter}>Clear</Button>
                 </div>

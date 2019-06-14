@@ -80,3 +80,19 @@
 .up-arrow img {
     transform: rotate(180deg);
 }
+
+@media (max-width: 768px){
+    .filter {
+        justify-content: flex-end;
+        flex-direction: column !important;
+    }
+    .filter-label {
+        width: 50%;
+    }
+    .filter .filter-dropdown {
+        margin: 10px 0;
+    }
+    .search-bar {
+        margin-bottom: 10px;
+    }
+}
