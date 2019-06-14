@@ -23,12 +23,14 @@ export class InputSearch extends Component {
             });
     }
 
+    // Method to handle the changes in datepicker
     handleChange = (date) => {
         this.setState({
             startDate: date
         })
     }
 
+    // Method to select the Location
     onSelect = (location) => {
         this.setState({location})
     }

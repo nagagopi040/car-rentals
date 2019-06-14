@@ -10,6 +10,7 @@ export class SearchBox extends Component {
         }
     }
 
+    // Method to handle the searchtext in searchinputbox
     onSearchChange = (event) => {
         let searchCar = event.target.value;
         this.setState({searchCar});

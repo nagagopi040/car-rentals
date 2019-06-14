@@ -20,12 +20,14 @@ export class InputDropDown extends Component {
         if(location) this.setState({location})
     }
     
+    // Method to toggle the dropdownmenu
     toggle = () => {
         this.setState(prevState => ({
             dropdownOpen: !prevState.dropdownOpen
         }));
     }
     
+    // Method to call callback function onSelecting the Location
     onSelect = (value) => {
         this.setState(prevState => ({
             location: value,

@@ -26,6 +26,8 @@ export class Filter extends Component {
         })
     }
 
+
+    // Method to call callback after selecting the filter
     onFilterSelect = (value, filterType) => {
         let { filters } = this.state;
         filters[filterType] = value;
@@ -34,6 +36,7 @@ export class Filter extends Component {
         }, () => this.props.onFilter(filters));
     }
 
+    // Method to clear the Filters applied
     clearFilter = () => {
         this.setState({
             filters: {},

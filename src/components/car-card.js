@@ -11,6 +11,7 @@ export class CarCard extends Component {
         }
     }
 
+    // Select button functionality
     onSelect = () => {
         this.setState({
             selected: true
@@ -20,6 +21,8 @@ export class CarCard extends Component {
     render() {
         const { selected } = this.state;
         const { car, day } = this.props;
+        
+        // Render Method for car
         return (
             <Card className={`mb-4 car-card ${selected? "selected-card" : ""}`} >
                 <CardHeader tag="h4" className="border-0">{car.name}</CardHeader>

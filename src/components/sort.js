@@ -10,6 +10,7 @@ export class Sort extends Component {
         }
     }
 
+    // Sorting method
     onSort = () => {
         let { sort } = this.state;
         this.setState({

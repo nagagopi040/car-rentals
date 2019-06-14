@@ -16,12 +16,14 @@ export class FilterDropDown extends Component {
         this.setState({label: clear ? "" : label});
     }
     
+    // Method to toggle the dropdownmenu
     toggle = () => {
         this.setState(prevState => ({
             dropdownOpen: !prevState.dropdownOpen
         }));
     }
     
+    // Method to call callback function onSelecting the dropdown
     onSelect = (value) => {
         this.props.onSelect(value);
         this.setState({
